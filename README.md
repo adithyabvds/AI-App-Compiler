@@ -449,6 +449,16 @@ Multiple database engines
 Advanced validation strategies
 
 ---
+## Quick Navigation
+
+Frontend Documentation
+
+[Open Frontend Guide](./frontend/README.md)
+
+Backend Documentation
+
+[Open Backend Guide](./backend/README.md)
+---
 
 ## Conclusion
 
