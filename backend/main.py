@@ -8,31 +8,29 @@ app = FastAPI(
     title="AI App Compiler"
 )
 
-# ----------------------------
+# ---------------------------------
 # CORS Configuration
-# ----------------------------
+# ---------------------------------
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "*"
-    ],
+    allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ----------------------------
+# ---------------------------------
 # Request Schema
-# ----------------------------
+# ---------------------------------
 
 class PromptRequest(BaseModel):
     prompt: str
 
 
-# ----------------------------
+# ---------------------------------
 # Health Check
-# ----------------------------
+# ---------------------------------
 
 @app.get("/")
 def home():
@@ -43,9 +41,9 @@ def home():
     }
 
 
-# ----------------------------
+# ---------------------------------
 # Compile Endpoint
-# ----------------------------
+# ---------------------------------
 
 @app.post("/compile")
 def compile_endpoint(
@@ -55,3 +53,18 @@ def compile_endpoint(
     return run_compiler(
         request.prompt
     )
+
+
+# ---------------------------------
+# Explicit OPTIONS Handler
+# (helps with stubborn preflight issues)
+# ---------------------------------
+
+@app.options("/{rest_of_path:path}")
+async def options_handler(
+    rest_of_path: str
+):
+
+    return {
+        "status": "ok"
+    }
