@@ -2,7 +2,24 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+import os
+
 from compiler import compile_app as run_compiler
+
+# ---------------------------------
+# Startup Debug Logs
+# ---------------------------------
+
+print(f"[STARTUP] Current Directory: {os.getcwd()}")
+
+try:
+    print(f"[STARTUP] Files: {os.listdir('.')}")
+except Exception as e:
+    print(f"[STARTUP ERROR] {e}")
+
+# ---------------------------------
+# FastAPI App
+# ---------------------------------
 
 app = FastAPI(
     title="AI App Compiler"
@@ -54,7 +71,9 @@ def version():
 
 @app.post("/compile")
 def compile_endpoint(request: PromptRequest):
-    return run_compiler(request.prompt)
+    return run_compiler(
+        request.prompt
+    )
 
 # ---------------------------------
 # OPTIONS Preflight Handler
