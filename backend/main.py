@@ -4,7 +4,13 @@ from pydantic import BaseModel
 
 from compiler import compile_app as run_compiler
 
-app = FastAPI(title="AI App Compiler")
+app = FastAPI(
+    title="AI App Compiler"
+)
+
+# ---------------------------------
+# CORS Configuration
+# ---------------------------------
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,8 +20,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ---------------------------------
+# Request Schema
+# ---------------------------------
+
 class PromptRequest(BaseModel):
     prompt: str
+
+# ---------------------------------
+# Health Check
+# ---------------------------------
 
 @app.get("/")
 def home():
@@ -24,15 +38,27 @@ def home():
         "status": "healthy"
     }
 
+# ---------------------------------
+# Version Check
+# ---------------------------------
+
 @app.get("/version")
 def version():
     return {
-        "version": "cors-debug-v2"
+        "version": "v999-cors-test"
     }
+
+# ---------------------------------
+# Compile Endpoint
+# ---------------------------------
 
 @app.post("/compile")
 def compile_endpoint(request: PromptRequest):
     return run_compiler(request.prompt)
+
+# ---------------------------------
+# OPTIONS Preflight Handler
+# ---------------------------------
 
 @app.options("/{rest_of_path:path}")
 async def options_handler(rest_of_path: str):
