@@ -31,7 +31,9 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://ai-app-compiler-production.up.railway.app",
+    ],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
